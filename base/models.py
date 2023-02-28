@@ -6,13 +6,13 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class ProductType(models.Model):
     guid = models.IntegerField(unique=True,null=True)
-    name = models.CharField(max_length=100,default="")
+    item = models.CharField(max_length=100,default="")
     available = models.IntegerField(default=0)
     description = models.TextField(max_length=1500)
     price = models.IntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(100)])
 
     def __str__(self):
-        return self.name
+        return self.item
     
     
 class Bill(models.Model):

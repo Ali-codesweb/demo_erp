@@ -12,7 +12,7 @@ class BillSerializer(serializers.ModelSerializer):
         products:Product = Product.objects.filter(bill=obj)
         for p in products:
             bill_items.append({
-                'item':p.product.name,
+                'item':p.product.item,
                 'quantity':p.quantity,
             })
         return bill_items

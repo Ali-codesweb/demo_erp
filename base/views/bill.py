@@ -16,7 +16,7 @@ class BillList(APIView):
             customer_mobile = "",
         )
         for p in data['bill_items']:
-            pt = ProductType.objects.get(name=p['name'])
+            pt = ProductType.objects.get(item=p['item'])
             Product.objects.create(
                 product=pt,
                 quantity=p['quantity'],
