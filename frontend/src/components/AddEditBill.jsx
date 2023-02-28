@@ -42,9 +42,8 @@ function AddEditBill({ opened, handler, data, customer_name }) {
 
   const createBill = async () => {
     if (data) {
-      console.log("edit")
-     
-    }else{
+      console.log("edit");
+    } else {
       const resp = await createCustomerBill({
         customer_name: customerName,
         bill_items: billItems,

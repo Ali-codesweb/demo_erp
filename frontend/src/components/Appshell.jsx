@@ -65,10 +65,10 @@ const useStyles = createStyles((theme) => ({
 export function Appshell() {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-  const setToken = authStore(s=>s.setToken)
+  const setToken = authStore(s => s.setToken)
   const location = window.location.pathname;
   const navigate = useNavigate()
-  const logout = ()=>{
+  const logout = () => {
     setToken(null)
     localStorage.removeItem("demo_erp_token")
     navigate("/login")
@@ -118,7 +118,7 @@ export function Appshell() {
                 <Menu.Item color="red">Delete my account</Menu.Item>
               </Menu.Dropdown>
             </Menu>
-            <Button color={'red'} sx={{float:'right'}} onClick={logout}>Logout</Button>
+            <Button color={'red'} sx={{ float: 'right' }} onClick={logout}>Logout</Button>
           </Group>
         </Container>
       </Header>
