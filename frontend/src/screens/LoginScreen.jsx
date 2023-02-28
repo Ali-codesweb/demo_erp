@@ -24,6 +24,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
         console.log(store)
       const { data } = await login(username,password)
         if(data.token){
+          localStorage.setItem('demo_erp_token',data.token)
           store.setToken(data.token)
           navigate('/')
         }else{

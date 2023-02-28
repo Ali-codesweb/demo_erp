@@ -1,18 +1,28 @@
 import { ActionIcon, Box, Button, Container, Group, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddEditBill from "../components/AddEditBill";
 import { Appshell } from "../components/Appshell";
 import BillItem from "../components/BillItem";
 import { getBills } from "../network/lib/bill";
+import { authStore } from "../store/authStore";
 
 function HomeScreen() {
   const [addOpened, addHandler] = useDisclosure(false);
- 
+  const state = authStore(s=>s)
   const [bills, setbills] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
+    const token = localStorage.getItem("demo_erp_token")
+    console.log(token)
+    console.log(state.token)
+    if(!token && !state.token){
+      navigate('/login')
+      return
+    }
     getBills().then((e) => setbills(e.data.data));
-  }, [addOpened]);
+  }, [addOpened,state.token]);
 
   return (
     <div>

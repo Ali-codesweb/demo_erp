@@ -14,7 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
     <NotificationsProvider position='top-right'>
-
      <RouterProvider router={router} />
       </NotificationsProvider>
     </MantineProvider>
