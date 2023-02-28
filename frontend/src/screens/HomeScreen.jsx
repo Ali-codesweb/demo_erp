@@ -1,4 +1,4 @@
-import { Box, Button, Container, Table } from "@mantine/core";
+import { ActionIcon, Box, Button, Container, Group, Table } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import AddBill from "../components/AddBill";
 import { Appshell } from "../components/Appshell";
@@ -9,23 +9,7 @@ function HomeScreen() {
   const [bills, setbills] = useState([]);
   useEffect(() => {
     getBills().then((e) => setbills(e.data.data));
-  },[opened]);
-
-  const elements = [
-    { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-    { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-    { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-    { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-    { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
-  ];
-  const rows = elements.map((element) => (
-    <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-      <td>{element.symbol}</td>
-      <td>{element.mass}</td>
-    </tr>
-  ));
+  }, [opened]);
 
   return (
     <div>
@@ -41,13 +25,14 @@ function HomeScreen() {
           Add{" "}
         </Button>
         <AddBill opened={opened} setOpened={setOpened} />
-        <Table striped highlightOnHover withBorder withColumnBorders >
+        <Table striped highlightOnHover withBorder withColumnBorders>
           <thead>
             <tr>
               <th>Customer Name</th>
               <th>Customer Mobile</th>
               <th>Total Product Price</th>
               <th>Total Price</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +43,24 @@ function HomeScreen() {
                   <td>{element.customer_mobile}</td>
                   <td>{element.product_price}</td>
                   <td>{element.total_price}</td>
+                  <td>
+                    <Group>
+                      <ActionIcon
+                        color={"blue"}
+                        variant="filled"
+                        onClick={() => {}}
+                      >
+                        <i class="fa-solid fa-pencil"></i>
+                      </ActionIcon>
+                      <ActionIcon
+                        color={"red"}
+                        variant="filled"
+                        onClick={() => {}}
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </ActionIcon>
+                    </Group>
+                  </td>
                 </tr>
               ))}
           </tbody>

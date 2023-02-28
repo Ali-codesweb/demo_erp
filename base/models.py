@@ -13,20 +13,8 @@ class ProductType(models.Model):
 
     def __str__(self):
         return self.name
-
-class Product(models.Model):
-    product = models.ForeignKey(ProductType,null=True,on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    bill = models.ForeignKey("Bill",on_delete=models.CASCADE,null=True)
-
-    def save(self, *args, **kwargs) -> None:
-        self.bill.product_price += self.product.price * self.quantity
-        self.product.available -= self.quantity
-        self.bill.save()
-        self.product.save()
-        return super().save()
-
-
+    
+    
 class Bill(models.Model):
     customer_name = models.CharField(max_length=60)
     customer_mobile = models.CharField(max_length=12)
@@ -40,3 +28,18 @@ class Bill(models.Model):
 
     def __str__(self):
         return self.customer_name
+
+class Product(models.Model):
+    product = models.ForeignKey(ProductType,null=True,on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    bill = models.ForeignKey(Bill,on_delete=models.CASCADE,null=True)
+
+    def save(self, *args, **kwargs) -> None:
+        self.bill.product_price += self.product.price * self.quantity
+        self.bill.total_price += self.product.price * self.quantity
+        self.product.available -= self.quantity
+        self.bill.save()
+        self.product.save()
+        return super().save()
+
+
