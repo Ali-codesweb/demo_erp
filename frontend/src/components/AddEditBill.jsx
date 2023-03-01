@@ -9,9 +9,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { createCustomerBill } from "../network/lib/bill";
+import { ErrorNotification } from "../constants/notifications";
+import { createCustomerBill, editCustomerBill } from "../network/lib/bill";
 import { getProductTypes } from "../network/lib/product_type";
-function AddEditBill({ opened, handler, data, customer_name }) {
+function AddEditBill({ opened, handler, data, customer_name, bill_id }) {
   const [billItems, setbillItems] = useState([
     {
       item: "",
@@ -22,6 +23,7 @@ function AddEditBill({ opened, handler, data, customer_name }) {
   const [customerName, setcustomerName] = useState(
     customer_name ? customer_name : ""
   );
+  const [toDeleteItems, settoDeleteItems] = useState([])
   useEffect(() => {
     if (data) setbillItems(data);
     else
@@ -42,12 +44,21 @@ function AddEditBill({ opened, handler, data, customer_name }) {
 
   const createBill = async () => {
     if (data) {
-      console.log("edit");
+      console.log(data)
+      const { data: respData } = await editCustomerBill({
+        id: bill_id,
+        bill_items: toDeleteItems.length > 0 ?  [...billItems,...toDeleteItems] : billItems ,
+        customer_name
+      })
     } else {
-      const resp = await createCustomerBill({
-        customer_name: customerName,
-        bill_items: billItems,
-      });
+      try {
+        await createCustomerBill({
+          customer_name: customerName,
+          bill_items: billItems,
+        });
+      } catch ({ response }) {
+        ErrorNotification(response.data.message);
+      }
       handler.toggle();
     }
   };
@@ -121,6 +132,7 @@ function AddEditBill({ opened, handler, data, customer_name }) {
           <ActionIcon
             color={"red"}
             onClick={() => {
+              settoDeleteItems([...toDeleteItems, { ...e, is_delete: true }])
               setbillItems(billItems.filter((i) => i.item != e.item));
             }}
           >

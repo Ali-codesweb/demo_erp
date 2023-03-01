@@ -35,9 +35,8 @@ class Product(models.Model):
     bill = models.ForeignKey(Bill,on_delete=models.CASCADE,null=True)
 
     def save(self, *args, **kwargs) -> None:
-        self.bill.product_price += self.product.price * self.quantity
-        self.bill.total_price += self.product.price * self.quantity
-        self.product.available -= self.quantity
+        print("triuggered")
+       
         self.bill.save()
         self.product.save()
         return super().save()

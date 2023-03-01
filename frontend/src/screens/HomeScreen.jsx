@@ -11,19 +11,19 @@ import { authStore } from "../store/authStore";
 
 function HomeScreen() {
   const [addOpened, addHandler] = useDisclosure(false);
-  const state = authStore(s => s)
+  const {token} = authStore(s => s)
   const [bills, setbills] = useState([]);
   const navigate = useNavigate()
   useEffect(() => {
     const token = localStorage.getItem("demo_erp_token")
-    if (!token && !state.token) {
+    if (!token && !token) {
       ErrorNotification("Please login to process")
       navigate('/login')
     }
     else{
       getBills().then((e) => setbills(e.data.data));
     }
-  }, [addOpened, state.token]);
+  }, [addOpened, token]);
 
   return (
     <div>
@@ -52,7 +52,7 @@ function HomeScreen() {
           <tbody>
             {bills.length > 0 &&
               bills.map((element) => (
-                <BillItem element={element} />
+                <BillItem element={element} setbills={setbills} />
               ))}
           </tbody>
         </Table>
